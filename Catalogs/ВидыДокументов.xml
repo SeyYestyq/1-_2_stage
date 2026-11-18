@@ -62,7 +62,7 @@
 			<ChoiceDataGetModeOnInputByString>Directly</ChoiceDataGetModeOnInputByString>
 			<DefaultObjectForm>Catalog.ВидыДокументов.Form.ФормаВида</DefaultObjectForm>
 			<DefaultFolderForm/>
-			<DefaultListForm></DefaultListForm>
+			<DefaultListForm>Catalog.ВидыДокументов.Form.ФормаСписка</DefaultListForm>
 			<DefaultChoiceForm>Catalog.ВидыДокументов.Form.ФормаВыбора</DefaultChoiceForm>
 			<DefaultFolderChoiceForm/>
 			<AuxiliaryObjectForm/>
@@ -257,8 +257,6 @@
 						<xr:TypeId>3fd85691-8d58-5516-822e-010c522d42b9</xr:TypeId>
 						<xr:ValueId>a577c293-a58a-5031-a294-a7765fb11a8a</xr:ValueId>
 					</xr:GeneratedType>
-				</InternalInfo>
-				<InternalInfo>
 					<xr:GeneratedType name="CatalogTabularSectionRow.ВидыДокументов.Поля" category="TabularSectionRow">
 						<xr:TypeId>a5c2dff2-5485-54ff-85f9-ab3afecfbd28</xr:TypeId>
 						<xr:ValueId>bfa40898-d073-560d-b26d-b8dc044d32d9</xr:ValueId>
@@ -466,8 +464,6 @@
 						<xr:TypeId>ddc9bee7-0e76-5bdf-93ce-355e45f21a9d</xr:TypeId>
 						<xr:ValueId>50e219f1-5e87-52b9-8c23-a0874fd05097</xr:ValueId>
 					</xr:GeneratedType>
-				</InternalInfo>
-				<InternalInfo>
 					<xr:GeneratedType name="CatalogTabularSectionRow.ВидыДокументов.Маршрут" category="TabularSectionRow">
 						<xr:TypeId>3e6bbe5f-3f0e-5818-822b-b26db43e1db1</xr:TypeId>
 						<xr:ValueId>8b140c55-2d3f-5681-a271-e4bc28e68546</xr:ValueId>
@@ -680,6 +676,7 @@
 			</TabularSection>
 			<Form>ФормаВида</Form>
 			<Form>ФормаВыбора</Form>
+			<Form>ФормаСписка</Form>
 		</ChildObjects>
 	</Catalog>
 </MetaDataObject>

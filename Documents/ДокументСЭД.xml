@@ -112,7 +112,7 @@
 					<ChoiceForm/>
 					<LinkByType/>
 					<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
-					<Indexing>DontIndex</Indexing>
+					<Indexing>Index</Indexing>
 					<FullTextSearch>Use</FullTextSearch>
 					<DataHistory>Use</DataHistory>
 				</Properties>
@@ -453,8 +453,6 @@
 						<xr:TypeId>dd0cc0ee-97a6-50f3-b1ad-b6a17807012c</xr:TypeId>
 						<xr:ValueId>8a2e0cdb-6bdf-5677-8aa0-6e1979b35e4f</xr:ValueId>
 					</xr:GeneratedType>
-				</InternalInfo>
-				<InternalInfo>
 					<xr:GeneratedType name="DocumentTabularSectionRow.ДокументСЭД.ЗначенияПолей" category="TabularSectionRow">
 						<xr:TypeId>e60c5cc8-67c0-55a1-ab7b-50aca2046700</xr:TypeId>
 						<xr:ValueId>86f566ec-2744-5ee7-9f8e-82b98dfb12a2</xr:ValueId>
@@ -598,8 +596,6 @@
 						<xr:TypeId>5528ea90-9e5a-5aac-a30b-d042114ed536</xr:TypeId>
 						<xr:ValueId>4ad6f0e1-8a8e-551e-99d2-278b3390775a</xr:ValueId>
 					</xr:GeneratedType>
-				</InternalInfo>
-				<InternalInfo>
 					<xr:GeneratedType name="DocumentTabularSectionRow.ДокументСЭД.МаршрутСнимок" category="TabularSectionRow">
 						<xr:TypeId>9b246499-2cec-5217-a95a-9e2bb12a78e8</xr:TypeId>
 						<xr:ValueId>241409e5-e92a-5dfa-a729-9d4642251e94</xr:ValueId>

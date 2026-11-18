@@ -32,6 +32,7 @@ KIND_DIRS = {
     "ChartOfCharacteristicTypes": "ChartsOfCharacteristicTypes",
     "Constant": "Constants",
     "CommonModule": "CommonModules",
+    "CommonForm": "CommonForms",
     "Role": "Roles",
     "Subsystem": "Subsystems",
     "StyleItem": "StyleItems",

@@ -42,6 +42,15 @@ HEADER = (
 )
 FOOTER = "</MetaDataObject>\n"
 
+SHELL_STUB = """#Область ОбработчикиСобытий
+
+// Оболочка общего модуля создана в каркасе (зона Ангелины, каркас 18.11 20:00).
+// Наполняет владелец модуля в своей ветке; править этот файл может только он.
+
+#КонецОбласти
+"""
+
+
 
 def uid(*parts):
     return str(uuid.uuid5(NS, "/".join(parts)))
@@ -269,11 +278,18 @@ def gen_enum(e):
 def gen_tabular_section(owner_kind, owner_name, ts, indent=2):
     t = "\t" * indent
     name = ts["name"]
+    ts_kind = owner_kind + "TabularSection"
+    ts_row_kind = owner_kind + "TabularSectionRow"
     out = [f'{t}<TabularSection uuid="{uid(owner_kind + "." + owner_name, "ts", name)}">\n']
-    out.append(generated_types(owner_kind + "TabularSection", f"{owner_name}.{name}",
-                               [("", "TabularSection")], indent + 1)
-               + generated_types(owner_kind + "TabularSectionRow", f"{owner_name}.{name}",
-                                 [("", "TabularSectionRow")], indent + 1))
+    # оба GeneratedType — в одной InternalInfo, как в выгрузке Конфигуратора
+    ti = "\t" * (indent + 1)
+    out.append(f"{ti}<InternalInfo>\n")
+    for kind, category in ((ts_kind, "TabularSection"), (ts_row_kind, "TabularSectionRow")):
+        out.append(f'{ti}\t<xr:GeneratedType name="{kind}.{esc(owner_name)}.{esc(name)}" category="{category}">\n')
+        out.append(f"{ti}\t\t<xr:TypeId>{uid(owner_name + '.' + name, kind, 'type')}</xr:TypeId>\n")
+        out.append(f"{ti}\t\t<xr:ValueId>{uid(owner_name + '.' + name, kind, 'value')}</xr:ValueId>\n")
+        out.append(f"{ti}\t</xr:GeneratedType>\n")
+    out.append(f"{ti}</InternalInfo>\n")
     out.append(f"{t}\t<Properties>\n")
     out.append(f"{t}\t\t<Name>{esc(name)}</Name>\n")
     out.append(syn(ts.get("synonym", name), indent + 2))
@@ -709,6 +725,48 @@ def gen_language():
     return "".join(out)
 
 
+
+def gen_common_form(f):
+    name = f["name"]
+    meta = [HEADER, f'\t<CommonForm uuid="{uid("CommonForm", name)}">\n']
+    meta.append("\t\t<Properties>\n")
+    meta.append(f"\t\t\t<Name>{esc(name)}</Name>\n")
+    meta.append(syn(f.get("synonym", name), 3))
+    meta.append(f"\t\t\t<Comment>{esc(f.get('comment', ''))}</Comment>\n")
+    meta.append("\t\t\t<FormType>Managed</FormType>\n")
+    meta.append("\t\t\t<IncludeHelpInContents>false</IncludeHelpInContents>\n")
+    meta.append("\t\t\t<UsePurposes>\n")
+    meta.append('\t\t\t\t<v8:Value xsi:type="app:ApplicationUsePurpose">PlatformApplication</v8:Value>\n')
+    meta.append("\t\t\t</UsePurposes>\n")
+    meta.append("\t\t</Properties>\n")
+    meta.append("\t</CommonForm>\n")
+    meta.append(FOOTER)
+
+    form_ns = ('xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core"'
+               ' xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config"'
+               ' xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core"'
+               ' xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema"'
+               ' xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings"'
+               ' xmlns:ent="http://v8.1c.ru/8.1/data/enterprise"'
+               ' xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform"'
+               ' xmlns:style="http://v8.1c.ru/8.1/data/ui/style"'
+               ' xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system"'
+               ' xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui"'
+               ' xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web"'
+               ' xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows"'
+               ' xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema"'
+               ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.17"')
+    body = ('<?xml version="1.0" encoding="UTF-8"?>\n<Form ' + form_ns + '>\n'
+            '\t<Title>\n\t\t<v8:item>\n\t\t\t<v8:lang>ru</v8:lang>\n'
+            '\t\t\t<v8:content>' + esc(f.get("synonym", name)) + '</v8:content>\n'
+            '\t\t</v8:item>\n\t</Title>\n'
+            '\t<AutoTitle>false</AutoTitle>\n'
+            '\t<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>\n'
+            '\t<Events>\n\t\t<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>\n\t</Events>\n'
+            '\t<ChildItems/>\n</Form>\n')
+    return "".join(meta), body
+
+
 # ---------------------------------------------------------------- корень
 def gen_configuration(cfg, child_groups):
     out = [HEADER, f'\t<Configuration uuid="{uid("Configuration", cfg["name"])}">\n']
@@ -870,6 +928,23 @@ def main():
         write(f"CommonModules/{m['name']}.xml", gen_common_module(m), root)
         groups.setdefault("CommonModule", []).append(m["name"]); written.append("CommonModules/" + m["name"])
 
+    # заглушки модулей оболочек (не перезаписываем написанный код)
+    for m in spec.get("commonModules", []):
+        module_path = os.path.join(root, "CommonModules", m["name"], "Ext", "Module.bsl")
+        if not os.path.exists(module_path):
+            os.makedirs(os.path.dirname(module_path), exist_ok=True)
+            with open(module_path, "wb") as f:
+                f.write(b"\xef\xbb\xbf" + SHELL_STUB.encode("utf-8"))
+            written.append("CommonModules/" + m["name"] + "/Ext/Module.bsl (заглушка)")
+
+    # общие формы
+    for cf in spec.get("commonForms", []):
+        meta, body = gen_common_form(cf)
+        write(f"CommonForms/{cf['name']}.xml", meta, root)
+        write(f"CommonForms/{cf['name']}/Ext/Form.xml", body, root)
+        groups.setdefault("CommonForm", []).append(cf["name"])
+        written.append("CommonForms/" + cf["name"])
+
     # роли + права
     rights_map = build_rights(spec)
     for role in spec.get("roles", []):
@@ -901,90 +976,89 @@ def main():
 
 # ---------------------------------------------------------------- матрица прав
 def build_rights(spec):
-    """Права по таблице из модели данных команды (см. docs/02-arhitekturnye-resheniya.md).
+    """Права ролей. Набор прав зависит от типа объекта: у перечисления есть только View,
+    у подсистемы — только View, у константы — Read/Update/View/Edit. Несуществующее право
+    в Rights.xml не даст загрузить конфигурацию, поэтому наборы фиксированы по типу.
 
-    Ключевое: у пользовательских ролей нет права изменения истории согласования;
-    документ правится только в «Черновик» и «На доработке» (это проверяет модуль объекта),
-    пароль SMTP читает только администратор видов.
+    Ключевые договорённости (модель данных команды):
+    - пользовательские роли не получают права изменения истории согласования (только чтение);
+    - прямой правки согласованного документа нет ни у одной роли — это проверяет модуль объекта;
+    - пароль SMTP читают и меняют только «Администратор видов» и «ПолныеПрава».
     """
-    all_objects = []
-    for e in spec.get("enums", []):
-        all_objects.append(("Enum." + e["name"], ["View"]))
-    for c in spec.get("catalogs", []):
-        all_objects.append(("Catalog." + c["name"], None))
-    for p in spec.get("chartOfCharacteristicTypes", []):
-        all_objects.append(("ChartOfCharacteristicTypes." + p["name"], None))
-    for d in spec.get("documents", []):
-        all_objects.append(("Document." + d["name"], None))
-    for r in spec.get("informationRegisters", []):
-        all_objects.append(("InformationRegister." + r["name"], None))
-    for c in spec.get("constants", []):
-        all_objects.append(("Constant." + c["name"], None))
-    for s in spec.get("subsystems", []):
-        all_objects.append(("Subsystem." + s["name"], ["View"]))
+    OBJECT_RIGHTS = {
+        "Catalog": ["Read", "Insert", "Update", "Delete", "View", "Edit",
+                    "InteractiveInsert", "InteractiveSetDeletionMark",
+                    "InteractiveClearDeletionMark", "InteractiveDelete",
+                    "InteractiveDeleteMarked", "InputByString"],
+        "ChartOfCharacteristicTypes": ["Read", "Insert", "Update", "Delete", "View", "Edit",
+                                       "InteractiveInsert", "InteractiveSetDeletionMark",
+                                       "InteractiveClearDeletionMark", "InteractiveDelete",
+                                       "InteractiveDeleteMarked", "InputByString"],
+        "Document": ["Read", "Insert", "Update", "Delete", "View", "Edit",
+                     "InteractiveInsert", "InteractiveSetDeletionMark",
+                     "InteractiveClearDeletionMark", "InteractiveDelete",
+                     "InteractiveDeleteMarked", "InputByString"],
+        "InformationRegister": ["Read", "Update", "View", "Edit"],
+        "Constant": ["Read", "Update", "View", "Edit"],
+        "Enum": ["View"],
+        "Subsystem": ["View"],
+    }
+    READ_COMPLEX = {
+        "Catalog": ["Read", "View", "InputByString"],
+        "ChartOfCharacteristicTypes": ["Read", "View", "InputByString"],
+        "Document": ["Read", "View", "InputByString"],
+        "InformationRegister": ["Read", "View"],
+        "Constant": [],
+        "Enum": ["View"],
+        "Subsystem": ["View"],
+    }
 
-    def full(obj):
-        return ["Read", "Insert", "Update", "Delete", "View", "Edit", "InteractiveInsert",
-                "InteractiveSetDeletionMark", "InteractiveClearDeletionMark", "InteractiveDelete",
-                "InteractiveDeleteMarked", "InputByString"]
+    objects = []
+    for kind, key in (("Enum", "enums"), ("Catalog", "catalogs"),
+                      ("ChartOfCharacteristicTypes", "chartOfCharacteristicTypes"),
+                      ("Document", "documents"), ("InformationRegister", "informationRegisters"),
+                      ("Constant", "constants"), ("Subsystem", "subsystems")):
+        for item in spec.get(key, []):
+            objects.append((kind, item["name"]))
 
-    def read_only(obj):
-        return ["Read", "View", "InputByString"]
+    def rights(kind, name, mode):
+        key = kind
+        if mode == "full":
+            return OBJECT_RIGHTS[key]
+        if mode == "read":
+            return READ_COMPLEX[key]
+        return [r for r in READ_COMPLEX[key] if r in ("Read", "View")]
 
     roles = {r["name"]: [] for r in spec.get("roles", [])}
 
-    # Полные права — всё, включая администрирование
-    roles["ПолныеПрава"] = [(o, ["Read", "Insert", "Update", "Delete", "View", "Edit",
-                                 "InteractiveInsert", "InteractiveSetDeletionMark",
-                                 "InteractiveClearDeletionMark", "InteractiveDelete",
-                                 "InteractiveDeleteMarked", "InputByString", "UpdateDataHistory",
-                                 "ViewDataHistory"]) for o, _ in all_objects]
+    for kind, name in objects:
+        obj = f"{kind}.{name}"
+        roles["ПолныеПрава"].append((obj, rights(kind, name, "full")))
+
+        if (kind, name) in (("Catalog", "ВидыДокументов"), ("Catalog", "Сотрудники"),
+                            ("Catalog", "ЗначенияПолей"),
+                            ("ChartOfCharacteristicTypes", "ПоляДокументов")):
+            roles["АдминистраторВидов"].append((obj, rights(kind, name, "full")))
+        elif kind == "Constant":
+            roles["АдминистраторВидов"].append((obj, rights(kind, name, "full")))
+        else:
+            roles["АдминистраторВидов"].append((obj, rights(kind, name, "read")))
+
+        # Сотрудник: создаёт и правит свои документы в статусах «Черновик»/«На доработке»
+        if (kind, name) == ("Document", "ДокументСЭД"):
+            roles["Сотрудник"].append((obj, ["Read", "Insert", "Update", "View", "Edit",
+                                             "InteractiveInsert", "InputByString"]))
+        else:
+            roles["Сотрудник"].append((obj, rights(kind, name, "plain")))
+
+        # Согласующий: видит документы и историю, статус меняет движок согласования
+        if (kind, name) == ("InformationRegister", "ИсторияСогласования"):
+            roles["Согласующий"].append((obj, ["Read", "View"]))
+        else:
+            roles["Согласующий"].append((obj, rights(kind, name, "plain")))
+
     roles["ПолныеПрава"].append(("Configuration", ["Administration", "DataAdministration",
-                                                   "UpdateDataHistory", "OpenExtDataSources"]))
-
-    # Администратор видов — конструктор: полный доступ к видам, полям, значениям, сотрудникам;
-    # константы читает и меняет (пароль SMTP — только он)
-    admin_objects = ("Catalog.ВидыДокументов", "ChartOfCharacteristicTypes.ПоляДокументов",
-                     "Catalog.ЗначенияПолей", "Catalog.Сотрудники", "Enum.ТипыПолей",
-                     "Enum.КатегорииДокументов", "Enum.СтатусыНастройкиВида")
-    for o, _ in all_objects:
-        if o in admin_objects:
-            roles["АдминистраторВидов"].append((o, full(o)))
-        elif o.startswith("Constant."):
-            roles["АдминистраторВидов"].append((o, ["Read", "View", "Update", "Edit"]))
-        elif o.startswith("Enum.") or o.startswith("Subsystem."):
-            roles["АдминистраторВидов"].append((o, ["View"]))
-        else:
-            roles["АдминистраторВидов"].append((o, read_only(o)))
-
-    # Сотрудник — создаёт и правит свои документы, видит справочники, но не настройки почты
-    # и не историю согласования (Right на регистр только Read).
-    for o, _ in all_objects:
-        if o == "Document.ДокументСЭД":
-            roles["Сотрудник"].append((o, ["Read", "Insert", "Update", "View", "Edit",
-                                          "InteractiveInsert", "InputByString"]))
-        elif o in ("Catalog.ВидыДокументов", "ChartOfCharacteristicTypes.ПоляДокументов",
-                   "Catalog.ЗначенияПолей", "Catalog.Сотрудники"):
-            roles["Сотрудник"].append((o, read_only(o)))
-        elif o.startswith("Constant."):
-            continue
-        elif o in ("InformationRegister.ИсторияСогласования",):
-            roles["Сотрудник"].append((o, ["Read", "View"]))
-        else:
-            roles["Сотрудник"].append((o, ["View"]))
-
-    # Согласующий — как сотрудник, плюс чтение истории и маршрутов; статус меняет через
-    # модуль Согласование (привилегированный код Максима), прав на прямое изменение нет.
-    for o, _ in all_objects:
-        if o == "Document.ДокументСЭД":
-            roles["Согласующий"].append((o, ["Read", "View", "InputByString"]))
-        elif o.startswith("InformationRegister."):
-            roles["Согласующий"].append((o, ["Read", "View"]))
-        elif o.startswith("Constant."):
-            continue
-        else:
-            roles["Согласующий"].append((o, ["View"]))
-
+                                                  "UpdateDataHistory", "OpenExtDataSources"]))
     return roles
 
 

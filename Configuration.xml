@@ -82,7 +82,13 @@
 			<Role>ПолныеПрава</Role>
 			<Role>Согласующий</Role>
 			<Role>Сотрудник</Role>
+			<CommonModule>ДинамическиеФормы</CommonModule>
+			<CommonModule>ИнтеграцияMAX</CommonModule>
 			<CommonModule>КонструкторВидов</CommonModule>
+			<CommonModule>ПечатьДокументов</CommonModule>
+			<CommonModule>Согласование</CommonModule>
+			<CommonModule>ТестовыеДанные</CommonModule>
+			<CommonModule>Уведомления</CommonModule>
 			<Constant>АдресSMTP</Constant>
 			<Constant>АдресОтправителя</Constant>
 			<Constant>ИспользоватьSSL</Constant>
@@ -91,6 +97,8 @@
 			<Constant>ПортSMTP</Constant>
 			<Constant>ТаймаутSMTP</Constant>
 			<Constant>ТокенMAX</Constant>
+			<CommonForm>МоиСогласования</CommonForm>
+			<CommonForm>НастройкиПочты</CommonForm>
 			<Catalog>ВидыДокументов</Catalog>
 			<Catalog>ЗначенияПолей</Catalog>
 			<Catalog>Сотрудники</Catalog>

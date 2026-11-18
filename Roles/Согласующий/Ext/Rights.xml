@@ -55,12 +55,20 @@
 	<object>
 		<name>Catalog.ВидыДокументов</name>
 		<right>
+			<name>Read</name>
+			<value>true</value>
+		</right>
+		<right>
 			<name>View</name>
 			<value>true</value>
 		</right>
 	</object>
 	<object>
 		<name>Catalog.Сотрудники</name>
+		<right>
+			<name>Read</name>
+			<value>true</value>
+		</right>
 		<right>
 			<name>View</name>
 			<value>true</value>
@@ -69,12 +77,20 @@
 	<object>
 		<name>Catalog.ЗначенияПолей</name>
 		<right>
+			<name>Read</name>
+			<value>true</value>
+		</right>
+		<right>
 			<name>View</name>
 			<value>true</value>
 		</right>
 	</object>
 	<object>
 		<name>ChartOfCharacteristicTypes.ПоляДокументов</name>
+		<right>
+			<name>Read</name>
+			<value>true</value>
+		</right>
 		<right>
 			<name>View</name>
 			<value>true</value>
@@ -88,10 +104,6 @@
 		</right>
 		<right>
 			<name>View</name>
-			<value>true</value>
-		</right>
-		<right>
-			<name>InputByString</name>
 			<value>true</value>
 		</right>
 	</object>
@@ -127,6 +139,30 @@
 			<name>View</name>
 			<value>true</value>
 		</right>
+	</object>
+	<object>
+		<name>Constant.АдресSMTP</name>
+	</object>
+	<object>
+		<name>Constant.ПортSMTP</name>
+	</object>
+	<object>
+		<name>Constant.ТаймаутSMTP</name>
+	</object>
+	<object>
+		<name>Constant.ИспользоватьSSL</name>
+	</object>
+	<object>
+		<name>Constant.ЛогинSMTP</name>
+	</object>
+	<object>
+		<name>Constant.ПарольSMTP</name>
+	</object>
+	<object>
+		<name>Constant.АдресОтправителя</name>
+	</object>
+	<object>
+		<name>Constant.ТокенMAX</name>
 	</object>
 	<object>
 		<name>Subsystem.Документы</name>
