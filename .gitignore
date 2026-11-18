@@ -1,0 +1,5 @@
+.DS_Store
+ConfigDumpInfo.xml
+*.cf
+*.dt
+*.log
