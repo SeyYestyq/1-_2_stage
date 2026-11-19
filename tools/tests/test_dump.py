@@ -50,6 +50,20 @@ class DumpIntegrationTest(unittest.TestCase):
         (self.dump / 'CommonModules/Согласование.xml').unlink()
         self.assertIn('нет CommonModule.Согласование', self.errors())
 
+    def test_missing_wizard_descriptor_is_detected(self):
+        (self.dump / 'Catalogs/ВидыДокументов/Forms/ФормаМастер.xml').unlink()
+        self.assertIn('нет объявленной формы ФормаМастер', self.errors())
+
+    def test_missing_home_form_registration_is_detected(self):
+        path = self.dump / 'Configuration.xml'
+        path.write_text(path.read_text().replace('<CommonForm>НачальнаяСтраница</CommonForm>', ''))
+        self.assertIn('общая форма НачальнаяСтраница не подключена', self.errors())
+
+    def test_unknown_home_attribute_is_detected(self):
+        path = self.dump / 'CommonForms/НачальнаяСтраница/Ext/Form.xml'
+        path.write_text(path.read_text().replace('<DataPath>Черновики</DataPath>', '<DataPath>НеизвестныйСчетчик</DataPath>'))
+        self.assertIn('нет реквизита для пути НеизвестныйСчетчик', self.errors())
+
 
 if __name__ == '__main__':
     unittest.main()

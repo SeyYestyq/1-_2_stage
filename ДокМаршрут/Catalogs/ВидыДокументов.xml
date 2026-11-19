@@ -611,7 +611,7 @@
 </Attribute>
 </ChildObjects>
 </TabularSection>
-<Form>ФормаЭлемента</Form><Form>ФормаСписка</Form>
+<Form>ФормаЭлемента</Form><Form>ФормаМастер</Form><Form>ФормаСписка</Form>
 </ChildObjects>
 </Catalog>
 </MetaDataObject>

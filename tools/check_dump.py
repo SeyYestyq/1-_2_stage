@@ -12,7 +12,7 @@ MD = 'http://v8.1c.ru/8.3/MDClasses'
 TYPE_DIR = {'Catalog': 'Catalogs', 'Document': 'Documents', 'CommonModule': 'CommonModules',
             'Enum': 'Enums', 'InformationRegister': 'InformationRegisters', 'StyleItem': 'StyleItems',
             'Role': 'Roles', 'Language': 'Languages', 'Subsystem': 'Subsystems',
-            'Constant': 'Constants', 'DataProcessor': 'DataProcessors'}
+            'Constant': 'Constants', 'DataProcessor': 'DataProcessors', 'CommonForm': 'CommonForms'}
 NS = {'f': FORM, 'm': MD}
 
 
@@ -39,6 +39,10 @@ def check(root):
         for uid, count in Counter(ids).items():
             if count > 1:
                 errors.append(f'{path}: повтор id {uid}')
+        attributes = {n.get('name') for n in tree.findall('f:Attributes/f:Attribute', NS)}
+        for data_path in tree.findall('.//f:DataPath', NS):
+            if data_path.text and data_path.text.split('.')[0] not in attributes:
+                errors.append(f'{path}: нет реквизита для пути {data_path.text}')
         module = path.parent / 'Form/Module.bsl'
         source = module.read_text(encoding='utf-8-sig') if module.exists() else ''
         methods = set(re.findall(r'(?:Процедура|Функция)\s+(\w+)\s*\(', source, re.I))
@@ -60,10 +64,27 @@ def check(root):
             kind = obj.tag.split('}')[-1]
             if kind in TYPE_DIR and not (root / TYPE_DIR[kind] / f'{obj.text}.xml').is_file():
                 errors.append(f'Configuration.xml: нет {kind}.{obj.text}')
+    # Дескриптор формы недостаточен: он должен быть объявлен внутри объекта.
+    for directory in ('Catalogs', 'Documents', 'DataProcessors'):
+        for metadata_path in (root / directory).glob('*.xml'):
+            metadata = roots.get(metadata_path)
+            if metadata is None:
+                continue
+            for name in metadata.findall('.//m:ChildObjects/m:Form', NS):
+                descriptor = metadata_path.with_suffix('') / 'Forms' / f'{name.text}.xml'
+                body = metadata_path.with_suffix('') / 'Forms' / name.text / 'Ext/Form.xml'
+                if not descriptor.exists() or not body.exists():
+                    errors.append(f'{metadata_path}: нет объявленной формы {name.text}')
+    declared_common_forms = set()
+    if config is not None:
+        declared_common_forms = {n.text for n in config.findall('m:Configuration/m:ChildObjects/m:CommonForm', NS)}
     modules = {p.parent.parent.name: p.read_text(encoding='utf-8-sig')
                for p in (root / 'CommonModules').glob('*/Ext/Module.bsl')}
     for path in root.rglob('*.bsl'):
         source = path.read_text(encoding='utf-8-sig')
+        for form in re.findall(r'ОткрытьФорму\("ОбщаяФорма\.(\w+)"', source):
+            if form not in declared_common_forms or not (root / 'CommonForms' / form / 'Ext/Form.xml').exists():
+                errors.append(f'{path}: общая форма {form} не подключена')
         for name, text in modules.items():
             exported = set(re.findall(r'(?:Функция|Процедура)\s+(\w+)\([^\n]*\)\s+Экспорт', text))
             for method in re.findall(r'\b' + re.escape(name) + r'\.(\w+)\s*\(', source):
