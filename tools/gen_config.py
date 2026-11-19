@@ -941,7 +941,14 @@ def main():
     for cf in spec.get("commonForms", []):
         meta, body = gen_common_form(cf)
         write(f"CommonForms/{cf['name']}.xml", meta, root)
-        write(f"CommonForms/{cf['name']}/Ext/Form.xml", body, root)
+        # Тела общих форм, как и формы объектов, ведут их владельцы.
+        # В --out переносим готовую форму, при повторной генерации сохраняем её.
+        form_path = f"CommonForms/{cf['name']}/Ext/Form.xml"
+        source_path = os.path.join(ROOT, form_path)
+        if os.path.exists(source_path):
+            with open(source_path, encoding="utf-8") as form_file:
+                body = form_file.read()
+        write(form_path, body, root)
         groups.setdefault("CommonForm", []).append(cf["name"])
         written.append("CommonForms/" + cf["name"])
 

@@ -1,24 +1,122 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.17">
-	<Title>
-		<v8:item>
-			<v8:lang>ru</v8:lang>
-			<v8:content>Документ</v8:content>
-		</v8:item>
-	</Title>
-	<AutoTitle>false</AutoTitle>
-	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
-	<Events>
-		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
-	</Events>
-	<ChildItems/>
-	<Attributes>
-		<Attribute name="Объект" id="1">
-			<Type>
-				<v8:Type>cfg:DocumentObject.ДокументСЭД</v8:Type>
-			</Type>
-			<MainAttribute>true</MainAttribute>
-			<SavedData>true</SavedData>
-		</Attribute>
-	</Attributes>
+  <Title>
+    <v8:item>
+      <v8:lang>ru</v8:lang>
+      <v8:content>Документ</v8:content>
+    </v8:item>
+  </Title>
+  <AutoTitle>false</AutoTitle>
+  <AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+  <Events>
+    <Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+    <Event name="OnReadAtServer">ПриЧтенииНаСервере</Event>
+    <Event name="BeforeWriteAtServer">ПередЗаписьюНаСервере</Event>
+    <Event name="BeforeWrite">ПередЗаписью</Event>
+  <Event name="AfterWriteAtServer">ПослеЗаписиНаСервере</Event>
+  </Events>
+  <ChildItems/>
+  <Attributes>
+    <Attribute name="Объект" id="1">
+      <Type>
+        <v8:Type>cfg:DocumentObject.ДокументСЭД</v8:Type>
+      </Type>
+      <MainAttribute>true</MainAttribute>
+      <SavedData>true</SavedData>
+    </Attribute>
+    <Attribute name="Категория" id="100">
+      <Type>
+        <v8:Type>cfg:EnumRef.КатегорииДокументов</v8:Type>
+      </Type>
+    </Attribute>
+    <Attribute name="ПредыдущаяКатегория" id="101">
+      <Type>
+        <v8:Type>cfg:EnumRef.КатегорииДокументов</v8:Type>
+      </Type>
+    </Attribute>
+    <Attribute name="ПредыдущийВид" id="102">
+      <Type>
+        <v8:Type>cfg:CatalogRef.ВидыДокументов</v8:Type>
+      </Type>
+    </Attribute>
+    <Attribute name="ТаймлайнHTML" id="103">
+      <Type>
+        <v8:Type>xs:string</v8:Type>
+      </Type>
+    </Attribute>
+    <Attribute name="Интеграция" id="104">
+      <Type>
+        <v8:Type>xs:string</v8:Type>
+      </Type>
+    </Attribute>
+    <Attribute name="ПоляФормы" id="110">
+      <Type>
+        <v8:Type>v8:ValueTable</v8:Type>
+      </Type>
+      <Columns>
+        <Column name="Имя" id="111">
+          <Type>
+            <v8:Type>xs:string</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Идентификатор" id="112">
+          <Type>
+            <v8:Type>xs:string</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Поле" id="113">
+          <Type>
+            <v8:Type>cfg:ChartOfCharacteristicTypesRef.ПоляДокументов</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Заголовок" id="114">
+          <Type>
+            <v8:Type>xs:string</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Обязательное" id="115">
+          <Type>
+            <v8:Type>xs:boolean</v8:Type>
+          </Type>
+        </Column>
+      </Columns>
+    </Attribute>
+    <Attribute name="История" id="120">
+      <Type>
+        <v8:Type>v8:ValueTable</v8:Type>
+      </Type>
+      <Columns>
+        <Column name="Цикл" id="121">
+          <Type>
+            <v8:Type>xs:decimal</v8:Type>
+          </Type>
+        </Column>
+        <Column name="НомерЭтапа" id="122">
+          <Type>
+            <v8:Type>xs:decimal</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Сотрудник" id="123">
+          <Type>
+            <v8:Type>cfg:CatalogRef.Сотрудники</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Решение" id="124">
+          <Type>
+            <v8:Type>cfg:EnumRef.РешенияСогласования</v8:Type>
+          </Type>
+        </Column>
+        <Column name="ДатаРешения" id="125">
+          <Type>
+            <v8:Type>xs:dateTime</v8:Type>
+          </Type>
+        </Column>
+        <Column name="Комментарий" id="126">
+          <Type>
+            <v8:Type>xs:string</v8:Type>
+          </Type>
+        </Column>
+      </Columns>
+    </Attribute>
+  </Attributes>
 </Form>
