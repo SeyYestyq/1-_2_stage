@@ -3,3 +3,9 @@ ConfigDumpInfo.xml
 *.cf
 *.dt
 *.log
+
+__pycache__/
+*.pyc
+*.1CD
+bases/
+smtp.local
