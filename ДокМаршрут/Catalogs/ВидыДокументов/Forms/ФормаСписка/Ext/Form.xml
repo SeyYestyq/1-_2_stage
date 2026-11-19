@@ -12,7 +12,7 @@
 <Representation>None</Representation>
 <ShowTitle>false</ShowTitle>
 <ExtendedTooltip name="ГруппаОтборыРасширеннаяПодсказка" id="83"/>
-<ChildItems><InputField name="ОтборКатегория" id="70"><DataPath>ОтборКатегория</DataPath><TitleLocation>Top</TitleLocation><Events><Event name="OnChange">ОтборПриИзменении</Event></Events><ContextMenu name="ОтборКатегорияКонтекстноеМеню" id="71"/><ExtendedTooltip name="ОтборКатегорияРасширеннаяПодсказка" id="72"/></InputField><InputField name="ОтборСтатусНастройки" id="73"><DataPath>ОтборСтатусНастройки</DataPath><TitleLocation>Top</TitleLocation><Events><Event name="OnChange">ОтборПриИзменении</Event></Events><ContextMenu name="ОтборСтатусНастройкиКонтекстноеМеню" id="74"/><ExtendedTooltip name="ОтборСтатусНастройкиРасширеннаяПодсказка" id="75"/></InputField></ChildItems>
+<ChildItems><InputField name="ОтборКатегория" id="70"><DataPath>ОтборКатегория</DataPath><TitleLocation>Top</TitleLocation><Width>14</Width><AutoMaxWidth>false</AutoMaxWidth><ClearButton>true</ClearButton><Events><Event name="OnChange">ОтборПриИзменении</Event></Events><ContextMenu name="ОтборКатегорияКонтекстноеМеню" id="71"/><ExtendedTooltip name="ОтборКатегорияРасширеннаяПодсказка" id="72"/></InputField><InputField name="ОтборСтатусНастройки" id="73"><DataPath>ОтборСтатусНастройки</DataPath><TitleLocation>Top</TitleLocation><Width>14</Width><AutoMaxWidth>false</AutoMaxWidth><ClearButton>true</ClearButton><Events><Event name="OnChange">ОтборПриИзменении</Event></Events><ContextMenu name="ОтборСтатусНастройкиКонтекстноеМеню" id="74"/><ExtendedTooltip name="ОтборСтатусНастройкиРасширеннаяПодсказка" id="75"/></InputField><Button name="КнопкаСброситьОтборы" id="88"><Type>UsualButton</Type><CommandName>Form.Command.СброситьОтборы</CommandName><ExtendedTooltip name="КнопкаСброситьОтборыРасширеннаяПодсказка" id="89"/></Button></ChildItems>
 </UsualGroup>
 <Table name="Список" id="1">
 <Representation>List</Representation>
@@ -61,14 +61,17 @@
 <Type><v8:Type>cfg:EnumRef.СтатусыНастройкиВида</v8:Type></Type>
 </Attribute>
 </Attributes>
-
-<Commands>
-<Command name="ПоказатьИнструкцию" id="62">
+<Commands><Command name="ПоказатьИнструкцию" id="62">
 <Title><v8:item><v8:lang>ru</v8:lang><v8:content>Справка</v8:content></v8:item></Title>
 <ToolTip><v8:item><v8:lang>ru</v8:lang><v8:content>Справка: виды документов</v8:content></v8:item></ToolTip>
 <Picture><xr:Ref>StdPicture.Information</xr:Ref><xr:LoadTransparent>true</xr:LoadTransparent></Picture>
 <Action>ПоказатьИнструкцию</Action>
 <CurrentRowUse>DontUse</CurrentRowUse>
 </Command>
-</Commands>
+<Command name="СброситьОтборы" id="90">
+<Title><v8:item><v8:lang>ru</v8:lang><v8:content>Сбросить</v8:content></v8:item></Title>
+<ToolTip><v8:item><v8:lang>ru</v8:lang><v8:content>Очистить быстрые отборы</v8:content></v8:item></ToolTip>
+<Action>СброситьОтборы</Action>
+<CurrentRowUse>DontUse</CurrentRowUse>
+</Command></Commands>
 </Form>
