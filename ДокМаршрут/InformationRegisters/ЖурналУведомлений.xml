@@ -277,6 +277,90 @@
 </Properties>
 </Resource>
 <Form>ФормаСписка</Form>
+<Resource uuid="021813d1-d3c4-41ca-a180-9180e3d1a769">
+<Properties>
+<Name>ДанныеПовтора</Name>
+<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Данные для повторной отправки</v8:content></v8:item></Synonym>
+<Comment/>
+<Type><v8:Type>v8:ValueStorage</v8:Type></Type>
+<PasswordMode>false</PasswordMode>
+<Format/>
+<EditFormat/>
+<ToolTip/>
+<MarkNegatives>false</MarkNegatives>
+<Mask/>
+<MultiLine>false</MultiLine>
+<ExtendedEdit>false</ExtendedEdit>
+<MinValue xsi:nil="true"/>
+<MaxValue xsi:nil="true"/>
+<FillChecking>DontCheck</FillChecking>
+<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+<ChoiceParameterLinks/>
+<ChoiceParameters/>
+<QuickChoice>Auto</QuickChoice>
+<CreateOnInput>Auto</CreateOnInput>
+<ChoiceForm/>
+<LinkByType/>
+<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+<Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
+</Properties>
+</Resource>
+<Resource uuid="222f48ad-89ae-4999-a834-ada96a345a81">
+<Properties>
+<Name>ПовторитьПосле</Name>
+<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Следующая попытка</v8:content></v8:item></Synonym>
+<Comment/>
+<Type><v8:Type>xs:dateTime</v8:Type><v8:DateQualifiers><v8:DateFractions>DateTime</v8:DateFractions></v8:DateQualifiers></Type>
+<PasswordMode>false</PasswordMode>
+<Format/>
+<EditFormat/>
+<ToolTip/>
+<MarkNegatives>false</MarkNegatives>
+<Mask/>
+<MultiLine>false</MultiLine>
+<ExtendedEdit>false</ExtendedEdit>
+<MinValue xsi:nil="true"/>
+<MaxValue xsi:nil="true"/>
+<FillChecking>DontCheck</FillChecking>
+<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+<ChoiceParameterLinks/>
+<ChoiceParameters/>
+<QuickChoice>Auto</QuickChoice>
+<CreateOnInput>Auto</CreateOnInput>
+<ChoiceForm/>
+<LinkByType/>
+<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+<Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
+</Properties>
+</Resource>
+<Resource uuid="065d1cdc-c3af-419c-ab21-63a6597d2e09">
+<Properties>
+<Name>ВОтправке</Name>
+<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Повторная отправка выполняется</v8:content></v8:item></Synonym>
+<Comment/>
+<Type><v8:Type>xs:boolean</v8:Type></Type>
+<PasswordMode>false</PasswordMode>
+<Format/>
+<EditFormat/>
+<ToolTip/>
+<MarkNegatives>false</MarkNegatives>
+<Mask/>
+<MultiLine>false</MultiLine>
+<ExtendedEdit>false</ExtendedEdit>
+<MinValue xsi:nil="true"/>
+<MaxValue xsi:nil="true"/>
+<FillChecking>DontCheck</FillChecking>
+<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+<ChoiceParameterLinks/>
+<ChoiceParameters/>
+<QuickChoice>Auto</QuickChoice>
+<CreateOnInput>Auto</CreateOnInput>
+<ChoiceForm/>
+<LinkByType/>
+<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+<Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
+</Properties>
+</Resource>
 </ChildObjects>
 </InformationRegister>
 </MetaDataObject>
