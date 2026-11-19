@@ -55,7 +55,7 @@
 <ChoiceForm/>
 <LinkByType/>
 <ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
-<FillFromFillingValue>false</FillFromFillingValue><FillValue xsi:nil="true"/><Master>false</Master><MainFilter>true</MainFilter><DenyIncompleteValues>true</DenyIncompleteValues><Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
+<FillFromFillingValue>false</FillFromFillingValue><FillValue xsi:nil="true"/><Master>false</Master><MainFilter>true</MainFilter><DenyIncompleteValues>false</DenyIncompleteValues><Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
 </Properties>
 </Dimension><Dimension uuid="8f4b6070-e8ea-5516-ae9c-caf7fa495a79">
 <Properties>
@@ -137,6 +137,34 @@
 <LinkByType/>
 <ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
 <FillFromFillingValue>false</FillFromFillingValue><FillValue xsi:nil="true"/><Master>false</Master><MainFilter>true</MainFilter><DenyIncompleteValues>true</DenyIncompleteValues><Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
+</Properties>
+</Dimension>
+<Dimension uuid="c8b082c0-828e-4526-89a0-93b210490c5f">
+<Properties>
+<Name>ИдентификаторПопытки</Name>
+<Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Идентификатор попытки</v8:content></v8:item></Synonym>
+<Comment/>
+<Type><v8:Type>xs:string</v8:Type><v8:StringQualifiers><v8:Length>36</v8:Length><v8:AllowedLength>Variable</v8:AllowedLength></v8:StringQualifiers></Type>
+<PasswordMode>false</PasswordMode>
+<Format/>
+<EditFormat/>
+<ToolTip/>
+<MarkNegatives>false</MarkNegatives>
+<Mask/>
+<MultiLine>false</MultiLine>
+<ExtendedEdit>false</ExtendedEdit>
+<MinValue xsi:nil="true"/>
+<MaxValue xsi:nil="true"/>
+<FillChecking>DontCheck</FillChecking>
+<ChoiceFoldersAndItems>Items</ChoiceFoldersAndItems>
+<ChoiceParameterLinks/>
+<ChoiceParameters/>
+<QuickChoice>Auto</QuickChoice>
+<CreateOnInput>Auto</CreateOnInput>
+<ChoiceForm/>
+<LinkByType/>
+<ChoiceHistoryOnInput>Auto</ChoiceHistoryOnInput>
+<FillFromFillingValue>false</FillFromFillingValue><FillValue xsi:nil="true"/><Master>false</Master><MainFilter>true</MainFilter><DenyIncompleteValues>false</DenyIncompleteValues><Indexing>DontIndex</Indexing><FullTextSearch>Use</FullTextSearch>
 </Properties>
 </Dimension>
 <Resource uuid="a1a9aa0c-f931-56cd-892d-fdfff51fa209">
