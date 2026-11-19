@@ -82,6 +82,10 @@ def check(root):
                for p in (root / 'CommonModules').glob('*/Ext/Module.bsl')}
     for path in root.rglob('*.bsl'):
         source = path.read_text(encoding='utf-8-sig')
+        if path.relative_to(root).as_posix() == 'Documents/ДокументСЭД/Forms/ФормаДокумента/Ext/Form/Module.bsl':
+            # ModalityUseMode=DontUse: карточка должна работать и в веб-клиенте.
+            for name in re.findall(r'(?<!\w)(Вопрос|ВвестиСтроку|ПолучитьФайл|КаталогВременныхФайлов|ЗапуститьПриложение)\s*\(', source):
+                errors.append(f'{path}: несовместимый с веб-клиентом вызов {name}')
         for form in re.findall(r'ОткрытьФорму\("ОбщаяФорма\.(\w+)"', source):
             if form not in declared_common_forms or not (root / 'CommonForms' / form / 'Ext/Form.xml').exists():
                 errors.append(f'{path}: общая форма {form} не подключена')

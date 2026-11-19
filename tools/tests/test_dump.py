@@ -64,6 +64,11 @@ class DumpIntegrationTest(unittest.TestCase):
         path.write_text(path.read_text().replace('<DataPath>Черновики</DataPath>', '<DataPath>НеизвестныйСчетчик</DataPath>'))
         self.assertIn('нет реквизита для пути НеизвестныйСчетчик', self.errors())
 
+    def test_sync_mail_confirmation_regression_is_detected(self):
+        path = self.dump / 'Documents/ДокументСЭД/Forms/ФормаДокумента/Ext/Form/Module.bsl'
+        path.write_text(path.read_text(encoding='utf-8-sig') + '\n// regression fixture\nОтвет = Вопрос("Отправить?", РежимДиалогаВопрос.ДаНет);', encoding='utf-8-sig')
+        self.assertIn('несовместимый с веб-клиентом вызов Вопрос', self.errors())
+
 
 if __name__ == '__main__':
     unittest.main()
