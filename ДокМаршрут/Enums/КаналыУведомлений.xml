@@ -20,6 +20,7 @@
 </Properties>
 <ChildObjects>
 <EnumValue uuid="84e91049-075c-5a1b-b506-1c59b2b1d0aa"><Properties><Name>ЭлектроннаяПочта</Name><Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Электронная почта</v8:content></v8:item></Synonym><Comment/></Properties></EnumValue>
+<EnumValue uuid="c6297236-b457-465d-9602-dc808ee65873"><Properties><Name>СистемаВзаимодействия</Name><Synonym><v8:item><v8:lang>ru</v8:lang><v8:content>Система взаимодействия</v8:content></v8:item></Synonym><Comment/></Properties></EnumValue>
 </ChildObjects>
 </Enum>
 </MetaDataObject>
